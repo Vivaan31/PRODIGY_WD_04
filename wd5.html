@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <style>
+    *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: black;
+}
+body
+{
+    background-image: url("https://tse4.mm.bing.net/th?id=OIP.Dv4N8S8LHFJopGcp4hX7OwHaCv&pid=Api&P=0&h=220");
+} 
+.container
+{
+    width: 600px;
+    margin: 100px auto;
+    padding: 40px;
+}
+.inputs
+{
+padding: 2rem 0 2rem 0;
+text-align: center;
+justify-content: center;
+background: rgb(255, 0, 221);
+height: 150px;
+}
+.inputs input[type="text"]
+{
+    height: 4rem;
+    width: 20rem;
+    background: #212121;
+    font-weight: bold;
+    font-size: 1rem;
+    padding: 10px;
+    border: none;
+    background-color: transparent;
+    border: 2px solid black;
+    border-radius: 3px;
+    margin-right: 4px;
+}
+.inputs input[type="submit"]
+{
+    height: 3rem;
+    width: 6rem;
+    background: #ff8c00;
+    font-weight: bold;
+    color: rgb(0, 0, 0);
+    font-size: 1rem;
+    margin-top: 20px;
+    border: none;
+    border-radius: 4px;
+}
+.display
+{
+    text-align: center;
+    width: 520px;
+    color: #16a864;
+}
+.wrapper
+{
+    margin: 0 9rem;
+    background-color: #ffea03;
+    height: 45vh;
+    margin: 50px auto;
+    border-radius: 2px;
+}
+
+.wrapper h2
+{
+    padding: 10px 0;
+    text-align: center;
+    background: #000000;
+    color: rgb(255, 255, 255);
+}
+
+.wrapper p
+{
+    margin:20px 50px;
+    margin-right: 20px;
+    text-align: left;
+    color:#000000;
+    font-size: 23px;
+
+}
+
+.wrapper h2 span 
+{
+    font-size: 30px;
+    color:#00ff00;
+    text-decoration: underline;
+    text-decoration-color: white;
+}
+
+.wrapper p span 
+{
+    color:#2b00ff;
+    font-size: 30px;
+}
+   </style>
+</head>
+<body>
+    <div class="container">
+        <section class="main">  
+        <section class="inputs">
+            <div class="dropdown">
+              </div>
+        <input type="text" placeholder="Enter Your City Name..." id="cityinput">
+        <input type="submit" value="Submit" id="add">
+        <button placeholder="submit" id="add"></button>
+        </section>
+        
+        <section class="display">
+        <div class="wrapper">
+        <h2 id="cityoutput"></h2>
+        <p id="description"></p>
+        <p id="temp"></p>
+        <p id="wind"></p>
+        </div>
+        </section>
+        </section>
+        </div> 
+
+</body>
+
+<script>
+    var inputvalue = document.querySelector('#cityinput')
+var btn = document.querySelector('#add');
+var city= document.querySelector('#cityoutput') 
+var descrip = document.querySelector('#description')
+var temp = document.querySelector('#temp') 
+var wind = document.querySelector('#wind')
+apik ="bc6e90e079477cfea6b91eb9053b9cc0"
+function convertion(val)
+{
+return (val - 273).toFixed(3)
+}
+btn.addEventListener('click', function()
+{
+fetch('https://api.openweathermap.org/data/2.5/weather?q='+inputvalue.value+'&appid='+apik)
+.then(res => res.json())
+
+.then(data =>
+    {
+        var nameval = data['name']
+        var descrip = data['weather']['0']['description']
+        var tempature = data['main']['temp']
+        var wndspeed = data['wind']['speed']
+
+        city.innerHTML=`Weather of <span>${nameval}<span>`
+        temp.innerHTML = `Temperature: <span>${convertion (tempature)} C</span>`
+        description.innerHTML=`Sky Conditions: <span>${descrip}<span>`
+        wind.innerHTML = `Wind Speed: <span>${wndspeed} km/h<span>`
+
+})
+
+ .catch(err => alert('You entered wrong city name'))
+})
+</script>
+</html>
